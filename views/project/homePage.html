@@ -1,0 +1,94 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Fasthand&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Allison&family=Bebas+Neue&family=Love+Ya+Like+A+Sister&family=Pacifico&family=Rubik+Dirt&display=swap');:root{
+    /* --mainColor:#4CAF50; */
+}
+/*  
+    font-family: 'Delicious Handrawn', cursive; 
+    font-family: 'Fasthand', cursive;
+*/
+    .container-fluid.main-container{
+        height: 100vh;
+        background-image: url('https://www.ppu.edu/p/sites/default/files/styles/slider/public/ppu-1646830058-%D8%AC%D8%A7%D9%85%D8%B9%D8%A9%20%D8%A8%D9%88%D9%84%D9%8A%D8%AA%D9%83%D9%86%D9%83%20%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86.jpg?itok=I3Z3cfoD');
+        background-size: cover;
+        margin-top: 0;
+        position: relative;
+   }
+   .container-fluid.main-container .overlay{
+        background-color: rgba(0, 0, 0,.5);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+    .mainTitle{
+        color: white;
+        font-family: 'Delicious Handrawn', cursive; 
+        font-size: 3rem;
+    }
+    .info{
+        color: whitesmoke;
+        font-family: 'Fasthand', cursive;
+        font-size: 2rem;
+    }
+    .overlay .container{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+    .overlay .container .row{
+        height: 100%;
+        align-items: center;
+    }
+    .navbar .navbar-brand{
+        font-family: 'Love Ya Like A Sister', cursive;
+        font-weight: 600;
+    }
+    .navbar .nav-link{
+        font-family: 'Love Ya Like A Sister', cursive;
+    }
+</style>
+{{extend 'layout.html'}}
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1 class="mainTitle">
+                        Registration System
+                    </h1>
+                    <p class="info">With us, you can control and perform all your registration processes.</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    $('.navbar-nav.w-100.justify-content-center').css('display','none');
+    $('.form-control.mr-sm-2').css('display','none');
+    let logo=document.querySelector('a.navbar-brand.d-flex.w-50.mr-auto');
+    logo.innerHTML='Registration System';
+    logo.setAttribute('href','#');
+    // navbar-nav
+    let navbar_collapse=document.querySelector('.navbar-collapse.collapse.w-100');
+    navbar_collapse.innerHTML=`
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{{=request.function}}">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="coursesList">Courses List <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="yourCourses">Your Courses<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="coursesList">News<span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+    `+navbar_collapse.innerHTML;
+</script>

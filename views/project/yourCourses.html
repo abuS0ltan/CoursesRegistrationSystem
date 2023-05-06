@@ -1,0 +1,301 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Fasthand&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Allison&family=Bebas+Neue&family=Love+Ya+Like+A+Sister&family=Pacifico&family=Rubik+Dirt&display=swap');
+    :root{
+    /* --mainColor:#4CAF50; */
+}
+/*  
+    font-family: 'Delicious Handrawn', cursive; 
+    font-family: 'Fasthand', cursive;
+    font-family: 'Love Ya Like A Sister', cursive;
+
+*/
+    .container-fluid.main-container{
+        height: 100vh;
+        background-image: url('https://www.ppu.edu/p/sites/default/files/styles/slider/public/ppu-1646830058-%D8%AC%D8%A7%D9%85%D8%B9%D8%A9%20%D8%A8%D9%88%D9%84%D9%8A%D8%AA%D9%83%D9%86%D9%83%20%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86.jpg?itok=I3Z3cfoD');
+        background-size: cover;
+        margin-top: 0;
+        position: relative;
+        overflow: auto;
+   }
+   .container-fluid.main-container .overlay{
+        background-color: rgba(0, 0, 0,.5);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: auto;
+    }
+    .mainTitle{
+        color: white;
+        font-family: 'Delicious Handrawn', cursive; 
+        font-size: 3rem;
+        padding-top: 1rem;
+        margin: auto;
+        width: fit-content;
+
+    }
+    .info{
+        color: whitesmoke;
+        font-family: 'Fasthand', cursive;
+        font-size: 2rem;
+    }
+    .overlay .container{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+    .overlay .container .row.row1{
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+    }
+    .table.data{
+        border-radius: 1rem;
+        background-color: rgba(255, 255, 255,.8);
+        border-width: 0px;
+        width: 100%;
+    }
+    .table.data thead tr th{
+        border-top-width: 0px;
+    }
+    .table .row{
+        padding:0 1rem ;
+    }
+    .row .table.data th{
+        border-top-width: 0px;
+
+            border-bottom-width: 0px;
+    }
+    .row .table.data td{
+        border-top-width: 0px;
+        border-bottom-width: 0px;
+    }
+    .modal{
+        overflow: auto;
+        top: 20%;
+    }
+    .navbar .navbar-brand{
+        font-family: 'Love Ya Like A Sister', cursive;
+        font-weight: 600;
+    }
+    .navbar .nav-link{
+        font-family: 'Love Ya Like A Sister', cursive;
+    }
+    .needtowrap{
+        overflow: auto;
+    }
+        
+    @media (max-width: 992px) { 
+        :root{
+            font-size: 10px;
+        }
+        .row .table.data th,.row .table.data td{
+            font-size: 1rem;
+            border-bottom-width: 0px;
+        }
+     }
+     @media (max-height: 400px){
+        .modal{
+            top: 10%;       
+        }
+     }
+</style>
+{{extend 'layout.html'}}
+<div class="overlay">
+    <div class="container">
+        <div class="row row1">
+            <div class="col-12 my-5">
+                <h1 class="mainTitle">
+                    Your Courses 
+                </h1>
+                <!-- <p class="info">With us, you can control and perform all your registration processes.</p> -->
+            </div>
+            <div class="col-12">
+                
+                    <table class="table text-dark data text-center my-5">
+                        <thead>
+                        <tr class="row">
+                            <th class="col needtowrap">#</th>
+                            <th class="col needtowrap">Code</th>
+                            <th class="col-2 needtowrap">Name</th>
+                            <th class="col-2 needtowrap">Days</th>
+                            <th class="col-2 needtowrap">Time</th>
+                            <th class="col-1 needtowrap">Room</th>
+                            <th class="col-3 needtowrap">Achion</th>
+
+                        </tr>
+                        </thead>
+                        <tbody class="coursesDataTable">
+                          
+                        </tbody>
+                      </table>
+                
+            </div>
+        </div>
+        <div class="row">
+            
+        </div>
+    </div>
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title"></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p class="modalCode"></p>
+              <p class="modalDescription"></p>
+              <p class="modalInstructor"></p>
+              <p class="modalDays"></p>
+              <p class="modalTime"></p>
+              <p class="modalRoom"></p>
+              <p class="modalPrerequisites"> </p>
+              <p class="modalCapacity">Capacity: </p>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary close2" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+<script>
+    //------------------------------make my layout-----------------------------
+    let coursesDataTable =document.querySelector('.coursesDataTable');
+    $('.navbar-nav.w-100.justify-content-center').css('display','none');
+    $('.form-control.mr-sm-2').css('display','none');
+    let logo=document.querySelector('a.navbar-brand.d-flex.w-50.mr-auto');
+    logo.innerHTML='Registration System';
+    logo.setAttribute('href','homePage');
+    // navbar-nav
+    let navbar_collapse=document.querySelector('.navbar-collapse.collapse.w-100');
+    navbar_collapse.innerHTML=`
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="homePage">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="coursesList">Courses List <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{{=request.function}}">Your Courses<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="coursesList">News<span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+    `+navbar_collapse.innerHTML;
+    $('.close').click(function(){
+        $('.modal').css('display','none');
+    })
+    $('.close2').click(function(){
+        $('.modal').css('display','none');
+    })
+//------------------------------end my layout-----------------------------
+
+//------------------------------fetch data-----------------------------
+let coursesData =[];
+let schedulesData =[];
+let regsData =[];
+let apperData=[];
+async function getData(){
+    data=await fetch("coursesData.json");
+    return data.json();
+}
+async function getSchedulesData(){
+    data=await fetch("schedulesData.json");
+    return data.json();
+}
+async function getRegsData(){
+    data=await fetch("regsData.json");
+    console.log(data.json)
+    return data.json();
+}
+(async()=>{
+   const arr= await getData();
+   coursesData=arr.rows;
+   const arr2=await getSchedulesData();
+   schedulesData = arr2.rows;
+   const arr3=await getRegsData();
+   regsData = arr3.rows;
+   await displayData();
+})();
+
+//------------------------------end fetch data-----------------------------
+
+function makeData(){
+    let apperData=[];
+    for (let index = 0; index < regsData.length; index++) {
+        y=0;
+        for ( y = 0; y < coursesData.length; y++) {
+            console.log('hi');
+            if(regsData[index].coursed==coursesData[y].id)
+                break;
+        }
+        apperData.push(coursesData[y]);
+    }
+    return apperData;
+}
+async function displayData(){
+    let x=0;
+    apperData = makeData();
+    let dataToTable = '';
+    for (let index = 0; index < apperData.length; index++) {
+        for (; x < schedulesData.length; x++) {
+        if(apperData[index].schedul==schedulesData[x].id)
+            break;
+        }
+        dataToTable=dataToTable+`
+            <tr class="row">
+                            <th class="col needtowrap">${index+1}</th  >
+                            <td class="col needtowrap">${apperData[index].code}</td>
+                            <td class="col-2 needtowrap">${apperData[index].name}</td  >
+                            <td class="col-2 needtowrap"><p class=''>${schedulesData[x].days}</p></td  >
+                            <td class="col-2 needtowrap">${schedulesData[x].startTime} - ${schedulesData[x].endTime}</td   >
+                            <td class="col needtowrap">${schedulesData[x].room}</td>
+                            <td class="col-3 needtowrap">
+                                <div class="btn btn-primary" onclick='displayDetails(${index})'>Details</div>
+                            </td>
+
+                        </td>
+            `;
+            x=0;
+    }
+    coursesDataTable.innerHTML=dataToTable;
+}
+//------------------------------details-----------------------------
+function displayDetails(index){
+    let x=0
+    $('.modal').css('display','block');
+    document.querySelector('.modal-title').innerHTML=apperData[index].name;
+    document.querySelector('.modalCode').innerHTML=`code: ${apperData[index].code}.`;
+    if(apperData[index].description==null)
+        document.querySelector('.modalDescription').innerHTML=`Description: No Description :( .`;
+    else
+        document.querySelector('.modalDescription').innerHTML=`Description: ${apperData[index].description}.`;
+    document.querySelector('.modalInstructor').innerHTML=`Instructor: ${apperData[index].instructor}.`;
+    if(apperData[index].prerequisites==null)
+        document.querySelector('.modalPrerequisites').innerHTML=`Prerequisites: No Prerequisites :) .`;
+    else
+        document.querySelector('.modalPrerequisites').innerHTML=`Prerequisites: ${apperData[index].prerequisites}.`;
+    for (; x < schedulesData.length; x++) {
+        if(apperData[index].schedul==schedulesData[x].id)
+            break;
+    }
+    document.querySelector('.modalDays').innerHTML=`Days: ${schedulesData[x].days}.`;
+    document.querySelector('.modalTime').innerHTML=`Time: ${schedulesData[x].startTime} - ${schedulesData[x].endTime}.`;
+    document.querySelector('.modalRoom').innerHTML=`Room: ${schedulesData[x].room}.`;
+
+
+}
+//------------------------------end details-----------------------------
+</script>
