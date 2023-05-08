@@ -1,0 +1,29 @@
+{{extend 'myLayout.html'}}
+<div class="overlay">
+    <div class="container">
+        <div class="col-12 my-5">
+            <h1 class="mainTitle mainTitle2">
+                Profile
+            </h1>
+            <!-- <p class="info">With us, you can control and perform all your registration processes.</p> -->
+        </div>
+        <div class="profileContent">
+            <div class="card">
+                <h2 class="card-header">Student Information</h5>
+                <div class="card-body">
+                  <!-- <h3 class="card-title">First Name : Ahmad</h3>
+                  <h3 class="card-title">Last Name : Ahmad</h3>
+                  <h3 class="card-title">Email : ahmadsulta@gami.com</h3> -->
+                  <p class="card-text">Id: {{=auth.user.id}}.</p>
+                  <p class="card-text">First Name : {{=auth.user.first_name}}.</p>
+                  <p class="card-text">Last Name : {{=auth.user.last_name}}.</p>
+                  <p class="card-text">Email : {{=auth.user.email}}.</p>
+                  <p class="card-text">Number of courses : {{=coursesCount}}.</p>
+
+                  <a href="{{=URL('default','user/profile')}}" class="btn btn-secondary">Edit Profile</a>
+                  <a href="{{=URL('default','user/change_password')}}" class="btn btn-secondary">Change Password</a>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>

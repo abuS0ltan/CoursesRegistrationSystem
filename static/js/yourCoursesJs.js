@@ -35,7 +35,6 @@ let apperData=[];
 for (let index = 0; index < regsData.length; index++) {
     y=0;
     for ( y = 0; y < coursesData.length; y++) {
-        console.log('hi');
         if(regsData[index].coursed==coursesData[y].id)
             break;
     }
@@ -44,6 +43,7 @@ for (let index = 0; index < regsData.length; index++) {
 return apperData;
 }
 async function displayData(){
+    console.log(regsData);
 let x=0;
 apperData = makeData();
 let dataToTable = '';
@@ -62,6 +62,7 @@ for (let index = 0; index < apperData.length; index++) {
                         <td class="col needtowrap">${schedulesData[x].room}</td>
                         <td class="col-3 needtowrap">
                             <div class="btn btn-outline-dark" onclick='displayDetails(${index})'>Details</div>
+                            <div class="btn btn-dark" onclick='deleteCourse(${apperData[index].id})'>Delete</div>
                         </td>
 
                     </td>
@@ -96,3 +97,16 @@ document.querySelector('.modalRoom').innerHTML=`Room: ${schedulesData[x].room}.`
 
 }
 //------------------------------end details-----------------------------
+
+//------------------------------delete btn-----------------------------
+
+function deleteCourse(courseId){
+    let index = 0;
+    for (; index < regsData.length; index++) {
+        if(courseId==regsData[index].coursed)
+            break
+    }
+    console.log()
+    window.location = "deleteCourse/"+String(regsData[index].id);    
+}
+//------------------------------end delete btn-----------------------------
