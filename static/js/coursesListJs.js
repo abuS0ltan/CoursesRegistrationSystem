@@ -1,3 +1,4 @@
+//------------------------------define varible-----------------------------
 let coursesDataTable =document.querySelector('.coursesDataTable');
 let coursesData =[];
 let schedulesData =[];
@@ -5,8 +6,12 @@ let regCountData =[];
 let regCount =[];
 let FullCourses=[];
 let regCoursesData=[];
-//------------------------------fetch data-----------------------------
+let allBtn=document.querySelectorAll('.allBtn');
+let suggestedBtn=document.querySelector('.suggestedBtn');
+let suggestedCourses = [];
+//------------------------------end define varible-----------------------------
 
+//------------------------------fetch data-----------------------------
 async function getData(){
 data=await fetch("coursesData.json");
 return data.json();
@@ -35,6 +40,7 @@ regCoursesData= arr4.rows;
 console.log(regCoursesData);
 await calcNumReg();
 await displayData(coursesData);
+await calcSuggestedCourses();
 })();
 
 //------------------------------end fetch data-----------------------------
@@ -162,6 +168,9 @@ full=false;
 coursesDataTable.innerHTML=dataToTable;
 
 }
+//------------------------------end display data-----------------------------
+
+
 //------------------------------srarch------------------------------
 let searchInstructor = document.getElementById('searchInstructor');
 let searchName = document.getElementById('searchName');
@@ -191,6 +200,7 @@ for (let index = 0; index < coursesData.length; index++) {
 displayData(dataApper);
 })
 //------------------------------end search-----------------------------
+
 //------------------------------details-----------------------------
 function displayDetails(index){
 let x=0;
@@ -218,6 +228,64 @@ document.querySelector('.modalCapacity').innerHTML=`Capacity: ${regCount[index].
 }
 //------------------------------end details-----------------------------
 
+//------------------------------add btn-----------------------------
 function addCourse(courseId){
     window.location = "addCourse/"+String(courseId);    
 }
+//------------------------------end add btn-----------------------------
+
+//------------------------------All btn-----------------------------
+for (let index = 0; index < allBtn.length; index++) {
+    allBtn[index].addEventListener('click',function () {
+        displayData(coursesData);
+    });
+}
+//------------------------------end All btn-----------------------------
+
+//------------------------------calc suggested courses-----------------------------
+async function calcSuggestedCourses(){
+    let courseDontTake=[];
+    let add=true;
+    let idPrerequisites='';
+    for (let index = 0; index < coursesData.length; index++) {
+        for (let x = 0; x < regCoursesData.length; x++) {
+            if(coursesData[index].id==regCoursesData[x].coursed){
+                add=false;
+            }
+        }
+        if(add){
+            courseDontTake.push(coursesData[index]);
+        }
+        add=true;
+    }
+    for (let index = 0; index < courseDontTake.length; index++) {
+        if(courseDontTake[index].prerequisites!=null){
+            let a = 0;
+            for (; a < coursesData.length; a++) {
+                if(courseDontTake[index].prerequisites==coursesData[a].code)
+                {
+                    idPrerequisites=coursesData[a].id;
+                    break;
+                }
+            }
+            for (let z = 0; z < regCoursesData.length; z++) {
+                if(regCoursesData[z].coursed==idPrerequisites)
+                {
+                    suggestedCourses.push(courseDontTake[index]);
+                    break;
+                }
+            }
+        }
+        else{
+            suggestedCourses.push(courseDontTake[index]);
+        }
+    }
+}
+//------------------------------end calc suggested courses-----------------------------
+
+
+//------------------------------suggested btn-----------------------------
+suggestedBtn.addEventListener('click',function(){
+    displayData(suggestedCourses);
+})
+//------------------------------end suggested btn-----------------------------

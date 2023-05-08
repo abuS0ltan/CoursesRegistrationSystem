@@ -1,3 +1,10 @@
+<style>
+  .btnGroupContainer{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+}
+</style>
 {{extend 'myLayout.html'}}
 <div class="overlay">
     <div class="container">
@@ -24,7 +31,16 @@
                 </div>
             </div>
             <div class="col-12">
-                
+              <div class="btnGroupContainer">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button type="button" class="btn btn-dark allBtn">All Courses</button>
+                  <button type="button" class="btn btn-secondary suggestedBtn">Suggested Courses</button>
+                  <button type="button" class="btn btn-dark allBtn">All Courses</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              
                     <table class="table text-dark data text-center my-5">
                         <thead>
                         <tr class="row">
