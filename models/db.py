@@ -153,6 +153,9 @@ if configuration.get('scheduler.enabled'):
 # after defining tables, uncomment below to enable auditing
 # -------------------------------------------------------------------------
 # auth.enable_record_versioning(db)
+import datetime
+dt_now = datetime.datetime.now()
+times = str(dt_now.year)+'/'+str(dt_now.month)+'/'+str(dt_now.day)+'  -  '+str(dt_now.hour)+':'+str(dt_now.minute)
 db.define_table('courseSchedules',
     Field('days',type='string',notnull=True,requires=IS_IN_SET(['Sunday','Monday ','Tuesday ','Wednesday ','Thursday ','Sunday - Tuesday - Thursday','Monday-Wednesday','Sunday-Thursday','Sunday-Tuesday','Tuesday-Thursday'])) ,
     Field('startTime',type='time',requires=IS_TIME(),notnull=True) ,
@@ -166,7 +169,7 @@ db.define_table('courses',
     Field('description',type='string'), 
     Field('instructor',type='string',requires=IS_NOT_EMPTY()),
     Field('schedul',requires = IS_IN_DB(db,db.courseSchedules.id,'%(id)s')), 
-    Field('prerequisites',type='integer',notnull=False,), 
+    Field('prerequisites',notnull=False,), 
     Field('capacity',type='integer',requires=IS_INT_IN_RANGE(1, 120)), 
     )
 
@@ -174,6 +177,12 @@ db.define_table('studentsRegs',
     Field('studentId',requires = IS_IN_DB(db, db.auth_user.id, '%(id)s'),notnull=True), 
     Field('coursed',requires = IS_IN_DB(db, db.courses.id, '%(id)s'),notnull=True) 
     )
+db.define_table('news',
+    Field('title',type='string',requires=IS_NOT_EMPTY()),
+    Field('timeAndDate',default=times), 
+    Field('info',type='text',requires=IS_NOT_EMPTY())
+) 
+db.courses.prerequisites.requires = IS_IN_DB(db, 'courses.id', '%(code)s')
 # # db.define_table('studentsRegs',
 #     Field('',type=(),requires=IS_NOT_EMPTY()) 
-       
+#db.thing.owner_id.requires = IS_IN_DB(db, 'person.uuid', '%(name)s')
