@@ -170,7 +170,7 @@ db.define_table('courses',
     Field('instructor',type='string',requires=IS_NOT_EMPTY()),
     Field('schedul',requires = IS_IN_DB(db,db.courseSchedules.id,'%(id)s')), 
     Field('prerequisites',notnull=False,), 
-    Field('capacity',type='integer',requires=IS_INT_IN_RANGE(1, 120)), 
+    Field('capacity',type='integer',requires=IS_INT_IN_RANGE(10, 120)), 
     )
 
 db.define_table('studentsRegs',
