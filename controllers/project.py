@@ -53,3 +53,8 @@ def deleteCourse():
 @auth.requires_membership('admin')
 def controlPanal():
     return locals()
+@auth.requires_login()
+@auth.requires_membership('admin')
+def analytics():
+    userCount=db(db.auth_user.id).count()
+    return locals()

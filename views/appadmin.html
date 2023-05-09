@@ -1,4 +1,4 @@
-{{extend 'layout.html'}}
+{{extend 'mylayout.html'}}
 <script><!--
     jQuery(document).ready(function(){
     jQuery("table.sortable tbody tr").mouseover( function() {
@@ -8,7 +8,7 @@
     jQuery('table.sortable tbody tr:even').addClass('even');
 });
 //--></script>
-
+<div class="overlay">
 <div class="row">
   <div class="col-md-12">
 
@@ -276,4 +276,5 @@
 {{pass}}
 
   </div>
+</div>
 </div>

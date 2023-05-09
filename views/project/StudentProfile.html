@@ -3,27 +3,59 @@
     <div class="container">
         <div class="col-12 my-5">
             <h1 class="mainTitle mainTitle2">
+                {{if auth.user.id==1:}}
+                Profile And Control Panal
+                {{else:}}
                 Profile
+                {{pass}}
+                
             </h1>
             <!-- <p class="info">With us, you can control and perform all your registration processes.</p> -->
         </div>
         <div class="profileContent">
             <div class="card">
+                {{if auth.user.id==1:}}
+                <h2 class="card-header">Admin Information</h5>
+                {{else:}}
                 <h2 class="card-header">Student Information</h5>
+                {{pass}}
                 <div class="card-body">
-                  <!-- <h3 class="card-title">First Name : Ahmad</h3>
-                  <h3 class="card-title">Last Name : Ahmad</h3>
-                  <h3 class="card-title">Email : ahmadsulta@gami.com</h3> -->
                   <p class="card-text">Id: {{=auth.user.id}}.</p>
                   <p class="card-text">First Name : {{=auth.user.first_name}}.</p>
                   <p class="card-text">Last Name : {{=auth.user.last_name}}.</p>
                   <p class="card-text">Email : {{=auth.user.email}}.</p>
+                  {{if auth.user.id!=1:}}
                   <p class="card-text">Number of courses : {{=coursesCount}}.</p>
-
+                  {{pass}}
                   <a href="{{=URL('default','user/profile')}}" class="btn btn-secondary">Edit Profile</a>
                   <a href="{{=URL('default','user/change_password')}}" class="btn btn-secondary">Change Password</a>
                 </div>
               </div>
         </div>
+        {{if auth.user.id==1:}}
+        <div class="controlPanalContent my-5">
+            <div class="row">
+                <div class="col-sm-6 my-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Analytics </h5>
+                      <p class="card-text">Reports and analytics on course enrollment.</p>
+                      <a href="/{{=request.application}}/project/analytics" class="btn btn-dark">Go to Analytics</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 my-4">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title">Database Management</h5>
+                        <p class="card-text">Manage all data and operations on the database.</p>
+                        <a href="/{{=request.application}}/appadmin/index" class="btn btn-dark">Go to Database Management</a>
+                      </div>
+                    </div>
+                  </div>
+                  
+              </div>
+        </div>
+        {{pass}}
     </div>
 </div>

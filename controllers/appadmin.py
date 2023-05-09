@@ -135,6 +135,8 @@ def query_by_table_type(tablename, db, request=request):
 # ##########################################################
 # ## list all databases and tables
 # ###########################################################
+@auth.requires_login()
+@auth.requires_membership('admin')
 def index():
     return dict(databases=databases)
 

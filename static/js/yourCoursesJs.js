@@ -1,10 +1,13 @@
 let coursesDataTable =document.querySelector('.coursesDataTable');
-
-//------------------------------fetch data-----------------------------
+let regCountData =[];
+let regCount =[];
 let coursesData =[];
 let schedulesData =[];
 let regsData =[];
 let apperData=[];
+
+//------------------------------fetch data-----------------------------
+
 async function getData(){
 data=await fetch("coursesData.json");
 return data.json();
@@ -18,6 +21,10 @@ data=await fetch("regsData.json");
 console.log(data.json)
 return data.json();
 }
+async function getRegCountData(){
+    data=await fetch("regCount.json");
+    return data.json();
+    }
 (async()=>{
 const arr= await getData();
 coursesData=arr.rows;
@@ -25,6 +32,9 @@ const arr2=await getSchedulesData();
 schedulesData = arr2.rows;
 const arr3=await getRegsData();
 regsData = arr3.rows;
+const arr4=await getRegCountData();
+regCountData = arr4.regs;
+await calcNumReg();
 await displayData();
 })();
 
@@ -93,6 +103,7 @@ for (; x < schedulesData.length; x++) {
 document.querySelector('.modalDays').innerHTML=`Days: ${schedulesData[x].days}.`;
 document.querySelector('.modalTime').innerHTML=`Time: ${schedulesData[x].startTime} - ${schedulesData[x].endTime}.`;
 document.querySelector('.modalRoom').innerHTML=`Room: ${schedulesData[x].room}.`;
+document.querySelector('.modalCapacity').innerHTML=`Capacity: ${regCount[index].num}/${coursesData[index].capacity}.`;
 
 
 }
@@ -110,3 +121,24 @@ function deleteCourse(courseId){
     window.location = "deleteCourse/"+String(regsData[index].id);    
 }
 //------------------------------end delete btn-----------------------------
+
+async function calcNumReg(){
+    count = 0;
+    
+    for (let index = 0; index < coursesData.length; index++) {
+        for (let x = 0; x < regCountData.length; x++) {
+            if (regCountData[x].coursed==coursesData[index].id) {
+                count++;
+            }
+        }
+        let y={
+            coursesId:coursesData[index].id,
+            courseName:coursesData[index].name,
+            num:count
+        }
+        regCount.push(y);
+        count=0;
+    }
+    console.log(regCount);
+}
+//------------------------------end calc-----------------------------
