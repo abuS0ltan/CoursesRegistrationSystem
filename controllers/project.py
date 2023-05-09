@@ -13,8 +13,10 @@ def coursesData():
 def schedulesData():
     rows=db(db.courseSchedules).select()
     return locals()
+auth.settings.expiration = 1 
 @auth.requires_login()
 def yourCourses():
+    auth.settings.expiration = 1
     return locals()
 @auth.requires_login()
 def regsData():
@@ -55,6 +57,6 @@ def controlPanal():
     return locals()
 @auth.requires_login()
 @auth.requires_membership('admin')
-def analytics():
+def analytics():         
     userCount=db(db.auth_user.id).count()
     return locals()

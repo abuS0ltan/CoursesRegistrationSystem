@@ -7,6 +7,7 @@
 # ---- example index page ----
 def index():
     response.flash = T("Hello World")
+    redirect(URL('project', 'homePage'))
     return dict(message=T('Welcome to web2py!'))
 
 # ---- API (example) -----
