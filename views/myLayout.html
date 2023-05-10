@@ -38,20 +38,20 @@
     
       <!--  -->
 
+      <style>
+
+      </style>
   </head>
   <body>
     <div class="w2p_flash alert alert-dismissable">{{=response.flash or ''}}</div>
     <!-- Navbar ======================================= -->
     <nav class="navbar navbar-light navbar-expand-md bg-faded bg-dark navbar-dark justify-content-center">
-       <a href="homePage" class="navbar-brand d-flex w-50 mr-auto">Registration System</a>
+       <a href="/{{=request.application}}/project/coursesList" class="navbar-brand d-flex w-50 mr-auto">Registration System</a>
        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
          <span class="navbar-toggler-icon"></span>
        </button>
-       <div class="navbar-collapse collapse w-100" id="navbarNavDropdown">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/{{=request.application}}/project/homePage">Home <span class="sr-only">(current)</span></a>
-          </li>
+       <div class="navbar-collapse collapse w-100 ml-auto" id="navbarNavDropdown">
+        <ul class="navbar-nav  py-3">
           <li class="nav-item active">
             <a class="nav-link" href="/{{=request.application}}/project/coursesList">Courses List <span class="sr-only">(current)</span></a>
           </li>
@@ -61,12 +61,12 @@
           <li class="nav-item active">
             <a class="nav-link" href="/{{=request.application}}/project/StudentProfile">My Profile<span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="/{{=request.application}}/project/news">News<span class="sr-only">(current)</span></a>
-          </li>
+          <button type="button" class="btn btn-light" onclick="notificationsDisplay()">
+            Notifications <span class="badge badge-dark"></span>
+          </button>
         </ul>
         {{if 'auth' in globals():}}
-        <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+        <ul class="nav navbar-nav  justify-content-end">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{if auth.user:}}{{=auth.user.first_name}}{{else:}}LOGIN{{pass}}
@@ -107,12 +107,11 @@
 
       </div>
     
-
     {{block footer}} <!-- this is default footer -->
     <footer class="footer container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <div class="copyright pull-left">Amjad Khamiseh - Ahmad Sultan &#169; 2023</div>
+          <div class="copyright pull-left">Leena Alama - Husam Abu Zina &#169; 2023</div>
           <div id="poweredBy" class="pull-right">
             {{=T('Powered by')}}
             <a href="http://www.web2py.com/">web2py</a>

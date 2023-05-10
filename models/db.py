@@ -166,7 +166,7 @@ db.define_table('courseSchedules',
 db.define_table('courses',
     Field('code',type='integer',unique=True),
     Field('name',type='string',requires=IS_NOT_EMPTY()), 
-    Field('description',type='string'), 
+    Field('description',type='string',requires=IS_NOT_EMPTY()), 
     Field('instructor',type='string',requires=IS_NOT_EMPTY()),
     Field('schedul',requires = IS_IN_DB(db,db.courseSchedules.id,'%(id)s')), 
     Field('prerequisites',notnull=False,), 
@@ -182,7 +182,12 @@ db.define_table('news',
     Field('timeAndDate',default=times), 
     Field('info',type='text',requires=IS_NOT_EMPTY())
 ) 
+
+
+# db.define_table('web2py_session', Field('atime', 'datetime', default=request.now, onupdate=request.now, writable=False, readable=False), Field('expire', 'integer', default=3600, writable=False, readable=False), Field('locked', 'boolean', default=False, writable=False, readable=False), Field('client_ip', default=request.client, writable=False, readable=False), Field('data', 'text', default='{}', writable=False, readable=False))
+
 db.courses.prerequisites.requires = IS_IN_DB(db, 'courses.id', '%(code)s')
 # # db.define_table('studentsRegs',
 #     Field('',type=(),requires=IS_NOT_EMPTY()) 
 #db.thing.owner_id.requires = IS_IN_DB(db, 'person.uuid', '%(name)s')
+    

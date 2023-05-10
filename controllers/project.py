@@ -1,9 +1,7 @@
-def homePage():
-    login=False
-    return locals()
+auth.settings.expiration=1800
 @auth.requires_login()
 def coursesList():
-    
+    auth.settings.expiration=1800
     return locals()
 @auth.requires_login()
 def coursesData():
@@ -16,7 +14,7 @@ def schedulesData():
 auth.settings.expiration = 1 
 @auth.requires_login()
 def yourCourses():
-    auth.settings.expiration = 1
+    auth.settings.expiration=1800
     return locals()
 @auth.requires_login()
 def regsData():
@@ -34,14 +32,13 @@ def addCourse():
     redirect(URL('yourCourses'))
     return locals()
 @auth.requires_login()
-def news():
-    return locals()
 @auth.requires_login()
 def newsData():
     rows=db(db.news).select(orderby=~db.news.timeAndDate)
     return locals()
 @auth.requires_login()
 def StudentProfile():
+    auth.settings.expiration=1800
     coursesCount=db(db.studentsRegs.studentId==auth.user.id).count()
     return locals()
 @auth.requires_login()
@@ -59,4 +56,17 @@ def controlPanal():
 @auth.requires_membership('admin')
 def analytics():         
     userCount=db(db.auth_user.id).count()
+    return locals()
+# -------------------------courses deteils-----------------------------------
+@auth.requires_login()
+def coursesDeteils():         
+    code  = request.args(0)
+    name  = request.args(1)
+    Description = request.args(2)
+    Instructor = request.args(3)
+    Prerequisites = request.args(4)
+    Days = request.args(5)
+    Time = request.args(6)
+    Room = request.args(7)
+    Capacity = request.args(8)
     return locals()

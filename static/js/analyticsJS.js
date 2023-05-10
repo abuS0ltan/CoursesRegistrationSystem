@@ -63,12 +63,12 @@ let dataToTable = '';
 for (let index = 0; index < coursesData.length; index++) {
     dataToTable=dataToTable+`
         <tr class="row">
-                        <th class="col-2 needtowrap">${index+1}</th  >
+                        <td class="col-2 needtowrap">${index+1}</td >
                         <td class="col-2 needtowrap">${coursesData[index].code}</td>
                         <td class="col-3 needtowrap">${coursesData[index].name}</td  >
                         <td class="col-2 needtowrap">${regCount[index].num}</td  >
                         <td class="col-3 needtowrap">
-                            <div class="btn btn-outline-dark" onclick='displayDetails(${index})'>Details</div>
+                            <div class="btn btn-outline-light" onclick='displayDetails(${index})'>Details</div>
                         </td>
 
         `;

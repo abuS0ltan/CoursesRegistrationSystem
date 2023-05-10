@@ -64,14 +64,14 @@ for (let index = 0; index < apperData.length; index++) {
     }
     dataToTable=dataToTable+`
         <tr class="row">
-                        <th class="col needtowrap">${index+1}</th  >
+                        <td class="col needtowrap">${index+1}</td  >
                         <td class="col needtowrap">${apperData[index].code}</td>
                         <td class="col-2 needtowrap">${apperData[index].name}</td  >
                         <td class="col-2 needtowrap"><p class=''>${schedulesData[x].days}</p></td  >
                         <td class="col-2 needtowrap">${schedulesData[x].startTime} - ${schedulesData[x].endTime}</td   >
                         <td class="col needtowrap">${schedulesData[x].room}</td>
                         <td class="col-3 needtowrap">
-                            <div class="btn btn-outline-dark" onclick='displayDetails(${index})'>Details</div>
+                            <div class="btn btn-outline-light" onclick='displayDetails(${index})'>Details</div>
                             <div class="btn btn-dark" onclick='deleteCourse(${apperData[index].id})'>Delete</div>
                         </td>
 
@@ -82,31 +82,26 @@ for (let index = 0; index < apperData.length; index++) {
 coursesDataTable.innerHTML=dataToTable;
 }
 //------------------------------details-----------------------------
+//------------------------------details-----------------------------
 function displayDetails(index){
-let x=0
-$('.modal').css('display','block');
-document.querySelector('.modal-title').innerHTML=apperData[index].name;
-document.querySelector('.modalCode').innerHTML=`code: ${apperData[index].code}.`;
-if(apperData[index].description==null)
-    document.querySelector('.modalDescription').innerHTML=`Description: No Description :( .`;
-else
-    document.querySelector('.modalDescription').innerHTML=`Description: ${apperData[index].description}.`;
-document.querySelector('.modalInstructor').innerHTML=`Instructor: ${apperData[index].instructor}.`;
-if(apperData[index].prerequisites==null)
-    document.querySelector('.modalPrerequisites').innerHTML=`Prerequisites: No Prerequisites :) .`;
-else
-    document.querySelector('.modalPrerequisites').innerHTML=`Prerequisites: ${apperData[index].prerequisites}.`;
-for (; x < schedulesData.length; x++) {
-    if(apperData[index].schedul==schedulesData[x].id)
-        break;
-}
-document.querySelector('.modalDays').innerHTML=`Days: ${schedulesData[x].days}.`;
-document.querySelector('.modalTime').innerHTML=`Time: ${schedulesData[x].startTime} - ${schedulesData[x].endTime}.`;
-document.querySelector('.modalRoom').innerHTML=`Room: ${schedulesData[x].room}.`;
-document.querySelector('.modalCapacity').innerHTML=`Capacity: ${regCount[index].num}/${coursesData[index].capacity}.`;
+    let x=0;
+    for (; x < schedulesData.length; x++) {
+        if(coursesData[index].schedul==schedulesData[x].id)
+            break;
+    }
+    let code=`${coursesData[index].code}`;
+    let name=`${coursesData[index].name}`;
+    let Description=`${coursesData[index].description}`;
+    let Instructor=`${coursesData[index].instructor}`;
+    let Prerequisites=`${coursesData[index].prerequisites}`;
+    let Days=`${schedulesData[x].days}`;
+    let Time=`${schedulesData[x].startTime} - ${schedulesData[x].endTime}`;
+    let Room=`${schedulesData[x].room}`;
+    let Capacity=`${regCount[index].num}/${coursesData[index].capacity}`;
 
-
+    window.location = "coursesDeteils/"+code+'/'+name+'/'+Instructor+'/'+Description+'/'+Days+'/'+Prerequisites+'/'+Time+'/'+Room+'/'+Capacity+'/'+'yourCourses';    
 }
+//------------------------------end details-----------------------------
 //------------------------------end details-----------------------------
 
 //------------------------------delete btn-----------------------------
@@ -142,3 +137,58 @@ async function calcNumReg(){
     console.log(regCount);
 }
 //------------------------------end calc-----------------------------
+
+
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+
+
+//------------------------------notifications btn-----------------------------
+let notificationsData=[];
+let modalBody =document.querySelector('.modal-body');
+let badge=document.querySelector('.badge-dark');
+
+//------------------------------fetch data-----------------------------
+async function getNotificationsData(){
+    let data=await fetch("newsData.json");
+    return data.json();
+    }
+(async()=>{
+    const arr= await getNotificationsData();
+    notificationsData=arr.rows;
+    console.log(notificationsData);
+    await displayBadge();
+})();
+// //------------------------------end fetch data-----------------------------
+
+
+// //------------------------------notifications btn-----------------------------
+
+function notificationsDisplay(){
+    $('.modal').css('display','block');
+    let dataToModel='';
+    for (let index = 0; index < notificationsData.length; index++) {
+        dataToModel=dataToModel+`
+            <p class="NotificationsP">
+                ${notificationsData[index].title}
+                <br>
+                ${notificationsData[index].timeAndDate}
+                <br>
+                ${notificationsData[index].info}
+            </p>
+        `;    
+    }
+    modalBody.innerHTML=dataToModel;
+}
+
+//------------------------------end notifications btn-----------------------------
+async function displayBadge(){
+    badge.innerHTML=notificationsData.length+1;
+}

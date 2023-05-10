@@ -104,17 +104,24 @@ let full=false;
 let dontTakePrerequisites=false;
 let dataToTable = '';
 let idPrerequisites='';
+let myError=`You can't add the course because : `;
 for (let index = 0; index < apperData.length; index++) {
     isInSameTime= disabledClash(apperData[index]);
+    if(isInSameTime){
+        console.log('hi')
+        myError = myError +`It conflicts with the date of another course. `;
+    }
     for (let x = 0; x < FullCourses.length; x++) {
         if(FullCourses[x]==apperData[index].id)
         {
+            myError= myError+' is full. ';
             full=true;
             break;
         }
     }
     if(apperData[index].prerequisites!=null){
         dontTakePrerequisites=true;
+        myError= myError+' not take Prerequisites. ';
         let a = 0;
         for (; a < apperData.length; a++) {
             if(apperData[index].prerequisites==apperData[a].code)
@@ -125,22 +132,27 @@ for (let index = 0; index < apperData.length; index++) {
         }
         for (let z = 0; z < regCoursesData.length; z++) {
             if(regCoursesData[z].coursed==idPrerequisites)
-            {
+            {   
                 dontTakePrerequisites=false;
                 break;
+            }
+            else{
+                
             }
         }
     }
     if(full||dontTakePrerequisites||isInSameTime){
         dataToTable=dataToTable+`
         <tr class='row'>
-            <th class='col needtowrap'>${apperData[index].id}</th>
-            <td class='col needtowrap'>${apperData[index].code}</td>
-            <td class='col-3 needtowrap'>${apperData[index].name}</td>
-            <td class='col-3 needtowrap'>${apperData[index].instructor}</td>
-            <td class='col-3 needtowrap'>
-                <button class="btn btn-outline-dark"  onclick='displayDetails(${index})'>Details</button>
-                <button class="btn btn-dark mt-1" disabled>Add</button>
+            <td class='col-3 needtowrap'>${apperData[index].code}</td>
+            <td class='col-4 needtowrap'>${apperData[index].name}</td>
+            <td class='col-5 needtowrap'>
+                <div class="alert alert-danger my-3" role="alert">
+                     ${myError}
+                     <br>
+                     <button class="btn btn-dark my-1"  onclick='displayDetails(${index})'>Details</button>
+
+                </div>
             </td>
         </tr>
     `;
@@ -149,13 +161,11 @@ else
 {
     dataToTable=dataToTable+`
         <tr class='row'>
-            <th class='col needtowrap'>${apperData[index].id}</th>
-            <td class='col needtowrap'>${apperData[index].code}</td>
-            <td class='col-3 needtowrap'>${apperData[index].name}</td>
-            <td class='col-3 needtowrap'>${apperData[index].instructor}</td>
-            <td class='col-3 needtowrap position-relative'>
-                <button class="btn btn-outline-dark"  onclick='displayDetails(${index})'>Details</button>
-                <button class="btn btn-dark mt-1 " onclick='addCourse(${apperData[index].id})'>Add</button>
+            <td class='col-3 needtowrap'>${apperData[index].code}</td>
+            <td class='col-4 needtowrap'>${apperData[index].name}</td>
+            <td class='col-5 needtowrap position-relative'>
+                <button class="btn btn-outline-light"  onclick='displayDetails(${index})'>Details</button>
+                <button class="btn btn-light mt-1 " onclick='addCourse(${apperData[index].id})'>Add</button>
             </td>
         </tr>
     `;
@@ -163,6 +173,7 @@ else
 dontTakePrerequisites=false;
 idPrerequisites='';
 full=false;
+myError=`You can't add the course because : `;
 }
     
 coursesDataTable.innerHTML=dataToTable;
@@ -203,28 +214,21 @@ displayData(dataApper);
 
 //------------------------------details-----------------------------
 function displayDetails(index){
-let x=0;
-$('.modal').css('display','block');
-document.querySelector('.modal-title').innerHTML=coursesData[index].name;
-document.querySelector('.modalCode').innerHTML=`code: ${coursesData[index].code}.`;
-if(coursesData[index].description==null)
-    document.querySelector('.modalDescription').innerHTML=`Description: No Description :( .`;
-else
-    document.querySelector('.modalDescription').innerHTML=`Description: ${coursesData[index].description}.`;
-document.querySelector('.modalInstructor').innerHTML=`Instructor: ${coursesData[index].instructor}.`;
-if(coursesData[index].prerequisites==null)
-    document.querySelector('.modalPrerequisites').innerHTML=`Prerequisites: No Prerequisites :) .`;
-else
-    document.querySelector('.modalPrerequisites').innerHTML=`Prerequisites: ${coursesData[index].prerequisites}.`;
-for (; x < schedulesData.length; x++) {
-    if(coursesData[index].schedul==schedulesData[x].id)
-        break;
-}
-document.querySelector('.modalDays').innerHTML=`Days: ${schedulesData[x].days}.`;
-document.querySelector('.modalTime').innerHTML=`Time: ${schedulesData[x].startTime} - ${schedulesData[x].endTime}.`;
-document.querySelector('.modalRoom').innerHTML=`Room: ${schedulesData[x].room}.`;
-document.querySelector('.modalCapacity').innerHTML=`Capacity: ${regCount[index].num}/${coursesData[index].capacity}.`;
-
+    let x=0;
+    for (; x < schedulesData.length; x++) {
+        if(coursesData[index].schedul==schedulesData[x].id)
+            break;
+    }
+    let code=`${coursesData[index].code}`;
+    let name=`${coursesData[index].name}`;
+    let Description=`${coursesData[index].description}`;
+    let Instructor=`${coursesData[index].instructor}`;
+    let Prerequisites=`${coursesData[index].prerequisites}`;
+    let Days=`${schedulesData[x].days}`;
+    let Time=`${schedulesData[x].startTime} - ${schedulesData[x].endTime}`;
+    let Room=`${schedulesData[x].room}`;
+    let Capacity=`${regCount[index].num}/${coursesData[index].capacity}`;
+    window.location = "coursesDeteils/"+code+'/'+name+'/'+Instructor+'/'+Description+'/'+Days+'/'+Prerequisites+'/'+Time+'/'+Room+'/'+Capacity;    
 }
 //------------------------------end details-----------------------------
 
@@ -289,3 +293,58 @@ suggestedBtn.addEventListener('click',function(){
     displayData(suggestedCourses);
 })
 //------------------------------end suggested btn-----------------------------
+
+
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+
+
+//------------------------------notifications btn-----------------------------
+let notificationsData=[];
+let modalBody =document.querySelector('.modal-body');
+let badge=document.querySelector('.badge-dark');
+
+//------------------------------fetch data-----------------------------
+async function getNotificationsData(){
+    let data=await fetch("newsData.json");
+    return data.json();
+    }
+(async()=>{
+    const arr= await getNotificationsData();
+    notificationsData=arr.rows;
+    console.log(notificationsData);
+    await displayBadge();
+})();
+// //------------------------------end fetch data-----------------------------
+
+
+// //------------------------------notifications btn-----------------------------
+
+function notificationsDisplay(){
+    $('.modal').css('display','block');
+    let dataToModel='';
+    for (let index = 0; index < notificationsData.length; index++) {
+        dataToModel=dataToModel+`
+            <p class="NotificationsP">
+                ${notificationsData[index].title}
+                <br>
+                ${notificationsData[index].timeAndDate}
+                <br>
+                ${notificationsData[index].info}
+            </p>
+        `;    
+    }
+    modalBody.innerHTML=dataToModel;
+}
+
+//------------------------------end notifications btn-----------------------------
+async function displayBadge(){
+    badge.innerHTML=notificationsData.length+1;
+}
